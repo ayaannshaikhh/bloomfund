@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Link from "next/link";
 import Tag from "./tag.jsx";
 
@@ -16,7 +15,7 @@ export default function ScholarshipCard({ scholarship, isFavorite, onFavorite })
 
             <div className="flex justify-between items-center mt-4">
                 <Link 
-                    to={`/scholarships/${scholarship.id}`}
+                    href={`/scholarships/${scholarship.id}`}
                     className="text-blue-600 underline"
                 >
                     View Details
