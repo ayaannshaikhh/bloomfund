@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import ScholarshipCard from "../components/scholarshipCard.jsx";
 import SortDropdown from "../components/sortDropDown.jsx";
 import { useFavorites } from "../context/favouritesContext.jsx";
+import "./scholarships.css";
+
 
 function Scholarships() {
     const [scholarships, setScholarships] = useState([]);
