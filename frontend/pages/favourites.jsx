@@ -2,7 +2,7 @@ import React from "react";
 import { useFavorites } from "../context/favouritesContext.jsx";
 import EmptyState from "../components/emptyState.jsx";
 import ScholarshipCard from "../components/scholarshipCard.jsx";
-import "./favourites.css";
+import styles from "../styles/favourites.module.css";
 
 export default function Favourites() {
   const { favorites } = useFavorites();
