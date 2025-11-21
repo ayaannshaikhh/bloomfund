@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Link from "next/link";
 import Tag from "./tag.jsx";
 
 export default function ScholarshipCard({ scholarship, isFavorite, onFavorite }) {

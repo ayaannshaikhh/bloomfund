@@ -12,7 +12,7 @@ function Scholarships() {
     useEffect(() => {
         async function fetchScholarships() {
             try {
-                const res = await fetch("http://localhost:5000/api/scholarships"); 
+                const res = await fetch("http://localhost:8000/scholarships"); 
                 const data = await res.json();
                 setScholarships(data.scholarships);
             } catch (err) {
@@ -24,14 +24,14 @@ function Scholarships() {
         fetchScholarships();
     }, []);
 
-    const handleSort = (type) => {
-        setSortOption(type);
-        const sorted = [...scholarships];
-        if (type === "name") sorted.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-        if (type === "date") sorted.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-        if (type === "match") sorted.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
-        setScholarships(sorted);
-    };
+    // const handleSort = (type) => {
+    //     setSortOption(type);
+    //     const sorted = [...scholarships];
+    //     if (type === "name") sorted.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+    //     if (type === "date") sorted.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+    //     if (type === "match") sorted.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+    //     setScholarships(sorted);
+    // };
 
     const sortedScholarships = [...scholarships].sort((a, b) => {
         if (sortOption === "name") return (a.name || "").localeCompare(b.name || "");
