@@ -1,0 +1,108 @@
+body {
+    background-image: url('../assets/bloomfundbg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    min-height: 100vh;
+    margin: 0;
+    text-align: center;
+
+    /*here i am aligning the objects in the center of the page*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    display: flex;
+    flex-direction: column; /* stack children vertically */
+    gap: 16px;              /* space between stacked elements */
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid hsl(0, 0%, 80%);
+    background-color: hsla(0, 0%, 100%, 0.445);
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px hwb(0 0% 100% / 0.1);
+    padding: 20px;
+    width: 1000px;
+}
+
+.file-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+
+.hidden-file-input {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background-color: rgba(251, 203, 210, 0.829);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+
+    /* outline / visible boundary to read as a button */
+    border: 2px solid rgba(59,109,240,0.24);
+    box-shadow: 0 4px 12px rgba(59,109,240,0.12);
+    transition: transform .08s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.hidden-file-input:hover { transform: translateY(-1px); }
+
+.hidden-file-input:focus {
+    outline: none;
+    border-color: rgba(59,109,240,0.5);
+    box-shadow: 0 0 0 4px rgba(59,109,240,0.12);
+}
+
+
+
+.file-input-label {
+    display: inline-block;
+    background-color: rgba(251, 203, 210, 0.829);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(59,109,240,0.25);
+    transition: transform .08s ease, box-shadow .12s ease;
+    user-select: none;
+}
+
+.file-input-label:hover { transform: translateY(-1px); }
+.file-input-label:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(59,109,240,0.18); }
+
+.file-name {
+    font-size: 0.95rem;
+    color: #333;
+    background: rgba(255,255,255,0.6);
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.06);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* small tweak for upload button to match */
+.upload-button {
+    margin-top: 12px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: rgba(173, 235, 178, 0.623);
+    color: #030303;
+    border: none;
+    font-weight: 600;
+    box-shadow: 0 6px 14px rgba(43,159,111,0.18);
+}
+.upload-button:hover { filter: brightness(.95); cursor: pointer; }
