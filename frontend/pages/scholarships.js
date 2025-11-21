@@ -6,14 +6,16 @@ import { useFavorites } from "../context/favouritesContext.jsx";
 function Scholarships() {
     const [scholarships, setScholarships] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [sortOption, setSortOption] = useState("name");
+
     const { favorites, toggleFavorite } = useFavorites();
 
     useEffect(() => {
         async function fetchScholarships() {
             try {
-                const res = await fetch("http://localhost:8000/scholarships"); 
+                const res = await fetch("http://localhost:8000/scholarships");
                 const data = await res.json();
-                setScholarships(data.scholarships);
+                setScholarships(data.scholarships || []);
             } catch (err) {
                 console.error("Error fetching scholarships:", err);
             }
@@ -23,14 +25,9 @@ function Scholarships() {
         fetchScholarships();
     }, []);
 
-    // const handleSort = (type) => {
-    //     setSortOption(type);
-    //     const sorted = [...scholarships];
-    //     if (type === "name") sorted.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-    //     if (type === "date") sorted.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-    //     if (type === "match") sorted.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
-    //     setScholarships(sorted);
-    // };
+    const handleSort = (type) => {
+        setSortOption(type);
+    };
 
     const sortedScholarships = [...scholarships].sort((a, b) => {
         if (sortOption === "name") return (a.name || "").localeCompare(b.name || "");
@@ -39,7 +36,7 @@ function Scholarships() {
         return 0;
     });
 
-    return(
+    return (
         <div className="container">
             <h2>Scholarships For You</h2>
             <SortDropdown onSort={handleSort} />
@@ -49,7 +46,7 @@ function Scholarships() {
             {!loading && scholarships.length === 0 && (
                 <p>No scholarships found. Try updating your profile.</p>
             )}
-            {/* Results */}
+
             {scholarships.length > 0 && (
                 <div className="return-box">
                     <div className="flex justify-between items-center mb-4">
@@ -60,8 +57,12 @@ function Scholarships() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {sortedScholarships.map((sch) => (
-                        <ScholarshipCard key={sch.id} scholarship={sch} isFavorite={favorites.includes(sch.id)}
-                        onFavorite={() => toggleFavorite(sch.id)}/>
+                            <ScholarshipCard
+                                key={sch.id}
+                                scholarship={sch}
+                                isFavorite={favorites.includes(sch.id)}
+                                onFavorite={() => toggleFavorite(sch.id)}
+                            />
                         ))}
                     </div>
                 </div>
@@ -70,4 +71,4 @@ function Scholarships() {
     );
 }
 
-export default Scholarships
+export default Scholarships;

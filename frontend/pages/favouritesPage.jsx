@@ -1,36 +1,30 @@
-import React from "react";
-import { useFavorites } from "../context/favouritesContext.jsx";
-import EmptyState from "../components/emptyState.jsx";
-import ScholarshipCard from "../components/scholarshipCard.jsx";
+import { createContext, useContext, useState } from "react";
 
-export default function FavoritesPage() {
-  let favorites = [];
+const FavoritesContext = createContext(null);
 
-  try {
-    const ctx = useFavorites();
-    favorites = ctx?.favorites || [];
-  } catch (e) {
-    // hook not available or threw — fall back to empty list
-    console.error("useFavorites error:", e);
-    favorites = [];
-  }
+export function FavoritesProvider({ children }) {
+  const [favorites, setFavorites] = useState([]);
+
+  const toggleFavorite = (id) => {
+    setFavorites((prev) =>
+      prev.includes(id)
+        ? prev.filter((x) => x !== id)
+        : [...prev, id]
+    );
+  };
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-start">
-      <div className="container">
-        <h1 className="text-2xl font-bold mb-4">Your Favourites</h1>
+    <FavoritesContext.Provider value={{ favorites, toggleFavorite }}>
+      {children}
+    </FavoritesContext.Provider>
+  );
+}
 
-        {favorites.length === 0 ? (
-          <EmptyState message="No favorite scholarships yet." />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {favorites.map((sch) => (
-              <ScholarshipCard key={sch.id} scholarship={sch} />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-    
+export function useFavorites() {
+  return (
+    useContext(FavoritesContext) || {
+      favorites: [],
+      toggleFavorite: () => {},
+    }
   );
 }
