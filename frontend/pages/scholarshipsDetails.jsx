@@ -1,12 +1,13 @@
-import { useParams } from "react-router-dom";
+import { useRouter } from "next/router";
 import { useFavorites } from "../context/favouritesContext.jsx";
 
 export default function ScholarshipDetails() {
-  const { id } = useParams();
+  const router = useRouter();
+  const { id } = router.query; // <-- replaces useParams()
+
   const { addFavorite, removeFavorite, isFavorited } = useFavorites();
 
-  // In real app → fetch details from backend
-  // For now, mock structure:
+  // In a real app, fetch data using id
   const scholarship = {
     id,
     name: "Example Scholarship",
@@ -16,6 +17,9 @@ export default function ScholarshipDetails() {
     link: "https://example.com",
     match: "Strong match"
   };
+
+  // If router isn't ready yet (Next.js renders once with undefined query)
+  if (!id) return <p>Loading...</p>;
 
   return (
     <div className="p-6 max-w-3xl mx-auto bg-white rounded shadow">
