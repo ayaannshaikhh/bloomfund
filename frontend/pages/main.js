@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { supabase } from '../supabaseClient'
+import { useRouter } from 'next/router'
+
 
 export default function Main() {
   const [resume, setResume] = useState(null)
   const [transcript, setTranscript] = useState(null)
   const [message, setMessage] = useState('')
+  const router = useRouter()
 
   // handle file selections
   function handleResumeUpload(e) {
@@ -85,9 +88,9 @@ export default function Main() {
 
     setMessage('Files uploaded successfully')
 
-    // redirect
+    // client-side redirect (change target if needed)
     setTimeout(() => {
-      window.location.href = '/scholarships'
+      router.push('/scholarships')
     }, 800)
   }
 
