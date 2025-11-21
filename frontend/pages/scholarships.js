@@ -4,7 +4,7 @@ import SortDropdown from "../components/sortDropDown.jsx";
 import { useFavorites } from "../context/favouritesContext.jsx";
 import './scholarships.css';
 
-function ScholarshipsPage() {
+function Scholarships() {
     const [scholarships, setScholarships] = useState([]);
     const [loading, setLoading] = useState(true);
     const { favorites, toggleFavorite } = useFavorites();
@@ -71,4 +71,4 @@ function ScholarshipsPage() {
     );
 }
 
-export default ScholarshipsPage
+export default Scholarships
