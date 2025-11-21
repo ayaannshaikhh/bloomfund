@@ -36,6 +36,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+CORS_ORIGINS = [
+    "http://localhost:3000",                 # local frontend
+    "https://bloomfund-lac.vercel.app",      # vercel production frontend
+]
+
 # runs validation on startup
 @app.on_event("startup")
 async def startup_event():
