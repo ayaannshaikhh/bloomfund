@@ -7,17 +7,6 @@ export default function ScholarshipDetails() {
 
   const { addFavorite, removeFavorite, isFavorited } = useFavorites();
 
-  // In a real app, fetch data using id
-  const scholarship = {
-    id,
-    name: "Example Scholarship",
-    amount: 2000,
-    deadline: "2025-03-12",
-    description: "Full detailed description here",
-    link: "https://example.com",
-    match: "Strong match"
-  };
-
   // If router isn't ready yet (Next.js renders once with undefined query)
   if (!id) return <p>Loading...</p>;
 
