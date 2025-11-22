@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ScholarshipCard from "../components/scholarshipCard.jsx";
 import SortDropdown from "../components/sortDropDown.jsx";
 import { useFavorites } from "../context/favouritesContext.jsx";
+import api from "../utils/api.js";
 import styles from "../styles/scholarships.module.css";
 
 
@@ -15,9 +16,22 @@ function Scholarships() {
     useEffect(() => {
         async function fetchScholarships() {
             try {
-                const res = await fetch("http://localhost:8000/scholarships");
-                const data = await res.json();
-                setScholarships(data.scholarships || []);
+                const data = await api.getScholarships();
+                // Map backend data structure to frontend expectations
+                const mappedScholarships = (data.scholarships || []).map(sch => ({
+                    id: sch.id || sch.scholarship_id,
+                    name: sch.title || sch.name, // Backend uses 'title', frontend expects 'name'
+                    amount: sch.amount || "N/A",
+                    dueDate: sch.deadline || sch.dueDate, // Backend uses 'deadline', frontend expects 'dueDate'
+                    deadline: sch.deadline,
+                    description: sch.description || "",
+                    eligibility: sch.eligibility || "",
+                    essayRequired: sch.essay_required || false,
+                    matchLevel: sch.matchLevel || "Good",
+                    matchScore: sch.match_score || sch.matchScore || 0,
+                    link: sch.link || "#"
+                }));
+                setScholarships(mappedScholarships);
             } catch (err) {
                 console.error("Error fetching scholarships:", err);
             }
@@ -33,7 +47,7 @@ function Scholarships() {
 
     const sortedScholarships = [...scholarships].sort((a, b) => {
         if (sortOption === "name") return (a.name || "").localeCompare(b.name || "");
-        if (sortOption === "date") return new Date(a.dueDate) - new Date(b.dueDate);
+        if (sortOption === "date") return new Date(a.dueDate || a.deadline) - new Date(b.dueDate || b.deadline);
         if (sortOption === "match") return (b.matchScore || 0) - (a.matchScore || 0);
         return 0;
     });

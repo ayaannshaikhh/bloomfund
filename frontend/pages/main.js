@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../supabaseClient'
 import { useRouter } from 'next/router'
+import api from '../utils/api.js'
 
 
 export default function Main() {
@@ -54,6 +55,7 @@ export default function Main() {
   // continue button
   async function handleContinue() {
     setMessage('')
+    setMessage('Processing...')
 
     const { data, error } = await supabase.auth.getUser()
     if (error || !data.user) {
@@ -68,16 +70,45 @@ export default function Main() {
       return
     }
 
-    // upload resume
+    let profileJson = null
+
+    // Process resume through backend if uploaded
     if (resume) {
-      const res = await uploadFile(userId, resume, 'resume')
-      if (res.error) {
-        setMessage('Error uploading resume')
+      // First upload to Supabase storage
+      const storageRes = await uploadFile(userId, resume, 'resume')
+      if (storageRes.error) {
+        setMessage('Error uploading resume to storage')
         return
+      }
+
+      // Then send to backend for processing
+      try {
+        setMessage('Extracting data from resume...')
+        const processRes = await api.uploadResume(resume)
+        if (processRes.success && processRes.profile) {
+          profileJson = processRes.profile
+          setMessage('Resume processed successfully! Matching scholarships...')
+          
+          // Match scholarships with the extracted profile
+          try {
+            const matchRes = await api.matchScholarships(profileJson)
+            if (matchRes.success && matchRes.matches) {
+              setMessage('Scholarships matched! Redirecting...')
+            }
+          } catch (matchErr) {
+            console.error('Matching error:', matchErr)
+            // Continue even if matching fails
+          }
+        } else {
+          setMessage('Resume uploaded but processing incomplete')
+        }
+      } catch (processErr) {
+        console.error('Resume processing error:', processErr)
+        setMessage('Resume uploaded but could not be processed')
       }
     }
 
-    // upload transcript
+    // upload transcript (only to storage, no backend processing yet)
     if (transcript) {
       const res = await uploadFile(userId, transcript, 'transcript')
       if (res.error) {
@@ -86,12 +117,14 @@ export default function Main() {
       }
     }
 
-    setMessage('Files uploaded successfully')
+    if (!resume) {
+      setMessage('Files uploaded successfully')
+    }
 
-    // client-side redirect (change target if needed)
+    // client-side redirect
     setTimeout(() => {
       router.push('/scholarships')
-    }, 800)
+    }, 1500)
   }
 
   return (
