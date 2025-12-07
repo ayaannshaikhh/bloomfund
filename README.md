@@ -1,4 +1,4 @@
-BloomFund
+BloomFund 🌱
 ---
 A smart, personalized tool designed to help students discover scholarships that match their background, skills, and goals. Built to simplify the search process and make funding opportunities easier to access.
 
@@ -11,4 +11,5 @@ Features
 Keyword Search – Find scholarships by program, background, skillset, or keyword.
 Smart Filtering – Match based on criteria like major, year of study, location, GPA, and more.
 Clean UI – Simple, user-friendly interface for browsing results.
+
 
