@@ -43,7 +43,7 @@ export default function Welcome() {
             className="text-xl mb-6"
             style={{ color: "black" }}
           >
-            Upload your resume or transcript and let our AI find scholarships that match your background, goals, and experiences.
+            Upload your resume or transcript and let our AI find scholarships that match your background, goals, and experiences!
           </p>
 
           <a
